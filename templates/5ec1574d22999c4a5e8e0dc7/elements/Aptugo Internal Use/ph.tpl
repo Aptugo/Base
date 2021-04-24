@@ -8,7 +8,6 @@ import { makeStyles } from '@material-ui/core/styles'
         {{ element.values.localStyles | raw }}
     })
 {% endif %}
-
 const {{ page.name | friendly }}: FunctionComponent = (props: any) => {
   {% if element.values.localStyles %}
     const classes = mergeClasses( baseClasses, localStyles())
@@ -20,4 +19,4 @@ const {{ page.name | friendly }}: FunctionComponent = (props: any) => {
   {% endfor %}
 
   {{ content|raw }}
-  return (
+  return (<React.Fragment>

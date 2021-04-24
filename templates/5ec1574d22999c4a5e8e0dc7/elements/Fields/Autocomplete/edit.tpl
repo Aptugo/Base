@@ -1,3 +1,14 @@
+/*
+path: edit.tpl
+type: file
+unique_id: XLsE3nbG
+icon: ico-field
+sourceType: javascript
+settings:
+  - name: Packages
+    value: '"react-select": "^4.2.1",'
+children: []
+*/
 {% set tableName = ( field | fieldData ).table.name | friendly %}
 {% set referencedField = field.reference | fieldData %}
 {% if field.referencekey %}
@@ -55,6 +66,7 @@ React.useEffect(() => {
   onType={ typeInSearch{{ referencedTable }} }
   onChange={(newValue) => handle{{ tableName }}Change('{{ columnName }}')(newValue?.length ? newValue.map(item => ({ _id: item.value !== 'new' ? item.value : null, {{ referencedField.column_name | friendly }}: item.label })) : [])}
   loading={ {{ referencedTable | lower }}Data.loadingStatus === 'loading' }
+  {% if field.placeholder %}placeholder="{{ field.placeholder }}"{% endif %}
   options={ {{ columnName }}Options }
   label="{{ field.column_name }}"
 />

@@ -59,7 +59,7 @@ export default function {{ table.name | friendly | lower }}Reducer(state: I{{ t
       case {{ table.name | friendly | capitalize }}ActionTypes.ADDED_{{ table.name | friendly | upper }}:
         draft.addingStatus = ApiStatus.LOADED
         draft.{{ table.name | friendly | lower }}.push(action.payload.{{ table.name | friendly | lower }}.docs[0])
-        draft.found{{ table.name | friendly | lower }}.push(action.payload.{{ table.name | friendly | lower }}.docs[0])
+        if (draft.searchString) draft.found{{ table.name | friendly | lower }}.push(action.payload.{{ table.name | friendly | lower }}.docs[0])
         break
         
       case {{ table.name | friendly | capitalize }}ActionTypes.REMOVE_{{ table.singleName | friendly | upper }}:
@@ -73,6 +73,8 @@ export default function {{ table.name | friendly | lower }}Reducer(state: I{{ t
         
       case {{ table.name | friendly | capitalize }}ActionTypes.EDITED_{{ table.name | friendly | upper }}:
         draft.{{ table.name | friendly | lower }}[draft.{{ table.name | friendly | lower }}.findIndex(
+          ({{ table.singleName | friendly | lower }}) => {{ table.singleName | friendly | lower }}._id === action.payload._id)] = action.payload
+        draft.found{{ table.name | friendly | lower }}[draft.found{{ table.name | friendly | lower }}.findIndex(
           ({{ table.singleName | friendly | lower }}) => {{ table.singleName | friendly | lower }}._id === action.payload._id)] = action.payload
         break
     }

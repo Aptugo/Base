@@ -1,3 +1,17 @@
+/*
+path: show.tpl
+type: file
+unique_id: pPHnrV0O
+icon: ico-field
+sourceType: javascript
+children: []
+settings:
+  - name: Packages
+    value: |-
+      "moment": "latest",
+      "react-moment": "latest",
+*/
+
 {% set bpr %}
 import Field from '../components/Table/Field'
 {% endset %}
