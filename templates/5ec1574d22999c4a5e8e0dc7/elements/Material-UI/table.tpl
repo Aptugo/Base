@@ -36,6 +36,12 @@ options:
     settings:
       default: '''true'''
       condition: ''
+  - name: allowDeletion
+    display: Allow Deletion
+    type: checkbox
+    settings:
+      default: '''true'''
+      condition: ''
   - name: addTitle
     display: Title for Add procedure
     type: text
@@ -77,17 +83,15 @@ options:
 children: []
 */
 
-
-
-
-
-
-
 {% set tableFields = [] %}
 {% if element.values.table == 'var' %}
   {% for field in element.children %}
-    {% set currentField = field.values.Field | fieldData  %}
-    {% set tableFields = tableFields|merge([currentField.column_name]) %}
+    {% if field.values.Field == 'useVar' %}
+      {% set tableFields = tableFields|merge([field.values.columnName]) %}
+    {% else %}
+      {% set currentField = field.values.Field | fieldData  %}
+      {% set tableFields = tableFields|merge([currentField.column_name]) %}
+    {% endif %}
   {% endfor %}
   {% set tableData = element.values.variableToUse %}
 {% else %}
@@ -101,8 +105,12 @@ children: []
 
   {% if element.children %}
       {% for field in element.children %}
+        {% if field.values.Field == 'useVar' %}
+          {% set tableFields = tableFields|merge([field.values.columnName]) %}
+        {% else %}
           {% set currentField = field.values.Field | fieldData  %}
           {% set tableFields = tableFields|merge([currentField.displaylabel|default(currentField.column_name)]) %}
+        {% endif %}
       {% endfor %}
   {% else %}
       {% set fields = table.fields %}
@@ -132,7 +140,7 @@ const [sortOrder, setSortOrder] = React.useState<{ orderBy?: string, order: 'asc
 <Table
     title='{{ element.values.title }}'
     tableHeaderColor='{{ element.values.headerColor }}'
-    tableHead={[{% for field in tableFields %}"{{ field }}",{% endfor %}{% if element.values.addProcedure != 'No' %}"Actions"{% endif %}]}
+    tableHead={[{% for field in tableFields %}"{{ field }}",{% endfor %}{% if element.values.addProcedure != 'No' or element.values.allowEdit or element.values.allowDeletion %}"Actions"{% endif %}]}
     tableData={ {{ tableData }} }
     orderBy={sortOrder.orderBy}
     order={sortOrder.order}
@@ -152,7 +160,7 @@ const [sortOrder, setSortOrder] = React.useState<{ orderBy?: string, order: 'asc
 {% endif %}
 {% if element.values.addProcedure != 'No' %}
 <div className={classes.actionsArea}>
-    {% if element.values.detailsURL %}
+    {% if element.values.detailsURL and element.values.detailsURL != 'No' %}
     <IconButton
       aria-label="edit"
       color="primary"
@@ -176,15 +184,16 @@ const [sortOrder, setSortOrder] = React.useState<{ orderBy?: string, order: 'asc
           const url = '{{ (element.values.addProcedure | elementData ).path }}'.replace(':id', e.element._id)
           props.history.push(url)
         {% endif %}
-        
       }}
     >
       <EditIcon fontSize="small" />
     </IconButton>
     {% endif %}
+    {% if element.values.allowDeletion %}
     <IconButton aria-label="delete" color="primary" onClickCapture={(e: any) => { dispatch(remove{{ tableSingleName }} (e.element)) }}>
-        <DeleteIcon fontSize="small" />
+      <DeleteIcon fontSize="small" />
     </IconButton>
+    {% endif %}
 </div>
 {% endif %}
 </Table>

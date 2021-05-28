@@ -8,7 +8,21 @@ options:
   - name: Field
     display: Field
     type: dropdown
-    options: return aptugo.tableUtils.getAllFields()
+    options: return [['useVar','Use a Variable'], ...aptugo.tableUtils.getAllFields()]
+  - name: fieldVariable
+    display: Variable
+    type: text
+    settings:
+      propertyCondition: Field
+      condition: useVar
+      active: true
+  - name: columnName
+    display: Label
+    type: text
+    settings:
+      propertyCondition: Field
+      condition: useVar
+      active: true
   - name: Type
     display: Type
     type: dropdown
@@ -49,8 +63,6 @@ options:
     type: text
 children: []
 */
-
-
 {% set bpr %}
     {% if element.values.Type == 'edit' %}
         import TextField from '@material-ui/core/TextField'
@@ -59,22 +71,23 @@ children: []
     {% endif %}
 {% endset %}
 {{ save_delayed('bpr', bpr ) }}
-{% set ph %}
-{% include includeTemplate('FieldseditInclude.tpl') with { 'tableInfo': element.values.Field | fieldData } %}
-{% endset %}
-{{ save_delayed('ph', ph ) }}
-{% if element.values.Field %}
-    {% set theField = element.values.Field | fieldData %}
+{% if (element.values.Field) and (element.values.Field != 'useVar') %}
+  {% set ph %}
+  {% include includeTemplate('FieldseditInclude.tpl') with { 'tableInfo': element.values.Field | fieldData } %}
+  {% endset %}
+  {{ save_delayed('ph', ph ) }}
+  {% set theField = element.values.Field | fieldData %}
 {% else %}
-    {% set theField = field %}
+  {% set theField = field %}
 {% endif %}
 {% if element.values.CutOnNewline %}
     {% set fieldValue = 'data.' ~ theField.column_name  ~ '.substr(0, data.' ~ theField.column_name ~ '.indexOf("\n"))' %}
 {% else %}
     {% set fieldValue = theField.column_name %}
 {% endif %}
-{% if element.values.Type == 'edit' %}
-    {% include includeTemplate('Fields' ~ theField.data_type ~ 'edit.tpl') with theField %}
+{% if element.values.Field == 'useVar' %}
+  {{ theField.rendered }}
 {% else %}
-    {% include includeTemplate('Fields' ~ theField.data_type ~ 'show.tpl') with theField %}
+  {% if element.values.Type == 'edit' %}{% include includeTemplate('Fields' ~ theField.data_type ~ 'edit.tpl') with theField %}
+  {% else %}{% include includeTemplate('Fields' ~ theField.data_type ~ 'show.tpl') with theField %}{% endif %}
 {% endif %}

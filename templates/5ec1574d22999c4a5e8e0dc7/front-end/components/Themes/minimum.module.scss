@@ -30,9 +30,10 @@ body {
 
   .mainarea {
     flex-grow: 2;
+    margin-bottom: 4rem;
 
     .tableHeading {
-      margin: 5rem 0 3rem;
+      margin: 5rem auto 3rem;
     }
 
     & :global(.MuiPaper-elevation1) {
