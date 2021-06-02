@@ -5,6 +5,7 @@ unique_id: J8e2ACps
 icon: sass.svg
 children: []
 */
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;400;600&display=swap');
 $break-small: 520px;
 $break-large: 950px;
@@ -393,7 +394,7 @@ html {
 
   & .prehappypeople {
     background: linear-gradient(180deg, #d9e9ee 0%, #ffffff 100%);
-    padding-bottom: 32rem;
+    padding-bottom: 23rem;
 
     @media screen and (max-width: $break-large) {
       padding-bottom: 18rem;
