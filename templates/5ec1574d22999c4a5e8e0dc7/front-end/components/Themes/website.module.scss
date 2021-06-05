@@ -6,6 +6,7 @@ icon: sass.svg
 children: []
 */
 
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;400;600&display=swap');
 $break-small: 520px;
 $break-large: 950px;
@@ -397,7 +398,7 @@ html {
     padding-bottom: 23rem;
 
     @media screen and (max-width: $break-large) {
-      padding-bottom: 18rem;
+      padding-bottom: 5rem;
     }
   }
 
