@@ -5,8 +5,6 @@ unique_id: J8e2ACps
 icon: sass.svg
 children: []
 */
-
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;400;600&display=swap');
 $break-small: 520px;
 $break-large: 950px;
@@ -407,30 +405,30 @@ html {
     flex-direction: column;
     align-content: center;
 
-      & .fastWithNoVendor {
-        margin: auto;
+    & .fastWithNoVendor {
+      margin: auto;
 
-        & h3 {
-          text-align: center;
-        }
+      & h3 {
+        text-align: center;
       }
+    }
 
-      & .allowsDevelopers {
+    & .allowsDevelopers {
+      margin: auto;
+
+      & p {
+        text-align: center;
+        max-width: 62%;
         margin: auto;
-
-        & p {
-          text-align: center;
-          max-width: 62%;
-          margin: auto;
-          margin-top: 40px;
-        }
+        margin-top: 40px;
       }
+    }
 
-      & .video {
-        margin: auto;
-        margin-top: 70px;
-        margin-bottom: 180px;
-      }
+    & .video {
+      margin: auto;
+      margin-top: 70px;
+      margin-bottom: 180px;
+    }
   }
 
   & .imageBackground {
@@ -2103,6 +2101,10 @@ html {
         margin: 65px auto 77px auto;
       }
     }
+  }
+  
+  & .blog {
+    margin-bottom: 500px;
   }
 
   .footer {
